@@ -35,7 +35,7 @@ Route::prefix('/articles')->group(function () {
         ->name('articleShow');
 });
 
-Route::prefix('/user')->group(function (){
+Route::prefix('/writer')->group(function (){
     Route::get('/{username}', [UserController::class, 'show'])
         ->name('userShow');
 });

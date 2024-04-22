@@ -20,7 +20,7 @@
 <body>
     <header>
         <h2>
-            <a href="/">Medium</a> |
+            <a href="/">MediUz</a> |
             @auth
                 <a href="#">{{ $USER->name }}</a> |
                 <a href="{{ route('articleStore') }}">Yozish</a> | 
