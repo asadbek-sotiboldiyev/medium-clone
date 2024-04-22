@@ -2,28 +2,39 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Article;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Article;
+use App\Models\Tag;
 
 class ArticleController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         $articles = Article::all();
+        $tags = Tag::all();
         return view('articles/index', $data = [
-            'articles' => $articles
+            'articles' => $articles,
+            'tags' => $tags
         ]);
     }
 
-    public function show($id){
+    public function show($id)
+    {
         $article = Article::findOrFail($id);
+        $auth_user = Auth::user();
         return view('articles/show', $data = [
-            'article' => $article
+            'article' => $article,
+            'USER' => $auth_user,
         ]);
     }
 
     public function store()
     {
-        return view('articles/store');
+        $tags = Tag::all();
+        return view('articles/store', $data = [
+            'tags' => $tags
+        ]);
     }
 
     public function create(Request $request)
@@ -43,5 +54,32 @@ class ArticleController extends Controller
 
         return redirect('/articles/' . $article->id);
     }
-}
 
+    public function edit($id)
+    {
+        $article = Article::findOrFail($id);
+        $tags = Tag::all();
+        return view('articles/edit', $data = [
+            'article' => $article,
+            'tags' => $tags
+        ]);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $validated_data = $request->validate([
+            'title' => 'required',
+            'content' => 'required',
+        ]);
+        $article = Article::findOrFail($id);
+        if (!empty($request->file('poster'))){
+            $filename = $request->file('poster')->getClientOriginalName();
+            $path = $request->file('poster')->storeAs('post-images', time() . $filename, 'public');
+
+            $validated_data['poster'] = '/storage/' . $path;
+        }
+        $article->update($validated_data);
+
+        return redirect('/articles/' . $article->id);
+    }
+}

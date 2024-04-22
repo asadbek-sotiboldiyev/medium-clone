@@ -2,7 +2,11 @@
 @section('title', 'Maqolalar')
 
 @section('content')
-
+<div>
+    @foreach ($tags as $tag)
+        <a href="#">| {{ $tag->name }} |</a>
+    @endforeach
+</div>
 @foreach ($articles as $article)
     <hr>
     <h3>

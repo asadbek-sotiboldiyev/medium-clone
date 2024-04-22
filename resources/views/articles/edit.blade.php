@@ -1,4 +1,5 @@
 @extends('base')
+@section('title', 'Tahrirlash')
 
 @section('content')
     <link rel="stylesheet" type="text/css" href="{{ asset('/css/trix.css') }}">
@@ -8,15 +9,16 @@
 
     <div class="container">
         <h1>Maqola yozish</h1>
-        <form method="POST" action="{{ route('articleCreate') }}" enctype="multipart/form-data">
+        <form method="POST" action="{{ route('articleUpdate', ['id' => $article->id]) }}" enctype="multipart/form-data">
             @csrf
-            <input type="text" name='title' placeholder="Mavzu">
+            <input type="text" name='title' placeholder="Mavzu" value="{{ $article->title }}">
             <br>
             <br>
-            <input type="file" name="poster" id="">
+            <input type="file" name="poster" id="" value="">
+            <img src="{{ $article->poster }}" alt="" style="width:300px">
             <br>
             <br>
-            <input id="x" type="hidden" name="content" value="" />
+            <input id="x" type="hidden" name="content" value="{{ $article->content }}" />
             <trix-editor input="x" class="trix-content"></trix-editor>
             <br>
             <select name="tag" multiple>
@@ -26,7 +28,7 @@
             </select>
             <br>
             <br>
-            <button>Share</button>
+            <button>Update</button>
         </form>
     </div>
 @endsection

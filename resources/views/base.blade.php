@@ -1,9 +1,9 @@
-@php
+<?php
     use Illuminate\Support\Facades\Auth;
     if (Auth::check()) {
         $USER = Auth::user();
     }
-@endphp
+?>
 
 <!DOCTYPE html>
 <html lang="en">

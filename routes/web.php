@@ -33,9 +33,15 @@ Route::prefix('/articles')->group(function () {
         ->middleware('auth');
     Route::get('/{id}', [ArticleController::class, 'show'])
         ->name('articleShow');
+    Route::get('/{id}/edit', [ArticleController::class, 'edit'])
+        ->name('articleEdit')
+        ->middleware('auth');
+    Route::post('/{id}/edit', [ArticleController::class, 'update'])
+        ->name('articleUpdate')
+        ->middleware('auth');
 });
 
-Route::prefix('/writer')->group(function (){
+Route::prefix('/writer')->group(function () {
     Route::get('/{username}', [UserController::class, 'show'])
         ->name('userShow');
 });
