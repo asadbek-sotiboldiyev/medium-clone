@@ -12,8 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('article_tags', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+            $table->integer('tag_id');
+            $table->integer('article_id');
+            $table->foreign('tag_id')->references('id')->on('tags');
+            $table->foreign('article_id')->references('id')->on('articles');
         });
     }
 

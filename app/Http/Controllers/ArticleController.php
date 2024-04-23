@@ -23,6 +23,7 @@ class ArticleController extends Controller
     {
         $article = Article::findOrFail($id);
         $auth_user = Auth::user();
+
         return view('articles/show', $data = [
             'article' => $article,
             'USER' => $auth_user,
@@ -71,7 +72,9 @@ class ArticleController extends Controller
             'title' => 'required',
             'content' => 'required',
         ]);
+
         $article = Article::findOrFail($id);
+        
         if (!empty($request->file('poster'))){
             $filename = $request->file('poster')->getClientOriginalName();
             $path = $request->file('poster')->storeAs('post-images', time() . $filename, 'public');

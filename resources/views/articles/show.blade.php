@@ -14,8 +14,10 @@
     </center>
     <div>{!! $article->content !!}</div>
     <hr>
-    @if($USER->id == $article->getAuthor()->id)
-        <a href="{{ route('articleEdit', ['id' => $article->id]) }}">Tahrirlash</a><br>
-    @endif
+    @auth
+        @if ($USER->id == $article->getAuthor()->id)
+            <a href="{{ route('articleEdit', ['id' => $article->id]) }}">Tahrirlash</a><br>
+        @endif
+    @endauth
     <p>{{ $article->created_at }}</p>
 @endsection

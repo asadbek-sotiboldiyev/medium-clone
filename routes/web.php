@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PagesController;
 use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\ArticleTagsController;
 use App\Http\Controllers\UserController;
 
 Route::get('/', [PagesController::class, 'home']);
@@ -44,4 +45,9 @@ Route::prefix('/articles')->group(function () {
 Route::prefix('/writer')->group(function () {
     Route::get('/{username}', [UserController::class, 'show'])
         ->name('userShow');
+});
+
+Route::prefix('/tag')->group(function () {
+    Route::get('/{tag_name}', [ArticleTagsController::class, 'articlesByTag'])
+        ->name('articlesByTag');
 });

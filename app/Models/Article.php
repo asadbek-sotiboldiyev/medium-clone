@@ -16,4 +16,9 @@ class Article extends Model
         $author = User::findOrFail($this->user_id);
         return $author;
     }
+
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class, 'article_tags');
+    }
 }
