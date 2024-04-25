@@ -19,7 +19,7 @@
             <input id="x" type="hidden" name="content" value="" />
             <trix-editor input="x" class="trix-content"></trix-editor>
             <br>
-            <select name="tag" multiple>
+            <select name="tag[]" multiple>
                 @foreach ($tags as $tag)
                     <option value="{{ $tag->id }}">{{ $tag->name }}</option>
                 @endforeach
