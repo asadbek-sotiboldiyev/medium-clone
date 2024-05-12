@@ -7,6 +7,4 @@ use App\Models\Article;
 
 class TagController extends Controller
 {
-    public function articlesByTag($name){
-    }
 }

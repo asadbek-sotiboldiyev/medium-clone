@@ -21,6 +21,7 @@
     <header>
         <h2>
             <a href="/">MediUz</a> |
+            <a href="{{ route('articleIndex') }}">Maqolalar</a> |
             @auth
                 <a href="#">{{ $USER->name }}</a> |
                 <a href="{{ route('articleStore') }}">Yozish</a> | 

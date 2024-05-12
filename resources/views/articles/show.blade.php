@@ -7,7 +7,6 @@
         <p>
             Muallif: {{ $article->getAuthor()->name }}
             • {{ date_format($article->created_at, 'd-M, Y') }}
-            <button>Follow</button>
         </p>
         <img src="{{ $article->poster }}" alt="">
         <hr>
@@ -20,4 +19,10 @@
         @endif
     @endauth
     <p>{{ $article->created_at }}</p>
+    <h3>Mavzular:</h3>
+    <div>
+        @foreach ($article->getTags() as $tag)
+            <a href="{{ route('articlesByTag', ['tag_name' => $tag->name]) }}">| {{ $tag->name }} |</a>
+        @endforeach
+    </div>
 @endsection

@@ -21,9 +21,11 @@
             <input id="x" type="hidden" name="content" value="{{ $article->content }}" />
             <trix-editor input="x" class="trix-content"></trix-editor>
             <br>
-            <select name="tag" multiple>
+            <select name="tag[]" multiple>
                 @foreach ($tags as $tag)
-                    <option value="{{ $tag->id }}">{{ $tag->name }}</option>
+                    <option value="{{ $tag->id }}" @if ($article->tagCheck($tag))
+                        selected
+                    @endif>{{ $tag->name }}</option>
                 @endforeach
             </select>
             <br>

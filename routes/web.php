@@ -48,6 +48,6 @@ Route::prefix('/writer')->group(function () {
 });
 
 Route::prefix('/tag')->group(function () {
-    Route::get('/{tag_name}', [ArticleTagsController::class, 'articlesByTag'])
+    Route::get('/{tag_name?}', [ArticleTagsController::class, 'articlesByTag'])
         ->name('articlesByTag');
 });

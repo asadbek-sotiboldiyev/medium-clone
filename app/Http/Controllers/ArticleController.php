@@ -9,6 +9,16 @@ use App\Models\Article_tags;
 use App\Models\Tag;
 use Symfony\Component\Console\Input\Input;
 
+function connectTag($article_id, $tags)
+{
+    foreach ($tags as $tag_id) {
+        $article_tag = new Article_tags;
+        $article_tag->article_id = $article_id;
+        $article_tag->tag_id = $tag_id;
+        $article_tag->save();
+    }
+}
+
 class ArticleController extends Controller
 {
     public function index()
@@ -48,7 +58,7 @@ class ArticleController extends Controller
             'content' => 'required',
             'tag' => 'required'
         ]);
-        
+
         $validated_data['user_id'] = $request->user()->id;
 
         $filename = time() . $request->file('poster')->getClientOriginalName();
@@ -58,12 +68,7 @@ class ArticleController extends Controller
 
         $article = Article::create($validated_data);
 
-        foreach($request->input('tag', []) as $tag_id){
-            $article_tag = new Article_tags;
-            $article_tag->article_id = $article->id;
-            $article_tag->tag_id = $tag_id;
-            $article_tag->save();
-        }
+        connectTag($article->id, $request->input('tag', []));
 
         return redirect('/articles/' . $article->id);
     }
@@ -72,9 +77,11 @@ class ArticleController extends Controller
     {
         $article = Article::findOrFail($id);
         $tags = Tag::all();
+
         return view('articles/edit', $data = [
             'article' => $article,
-            'tags' => $tags
+            'tags' => $tags,
+            'article_tags' => $article->getTags()
         ]);
     }
 
@@ -83,16 +90,22 @@ class ArticleController extends Controller
         $validated_data = $request->validate([
             'title' => 'required',
             'content' => 'required',
+            'tag' => 'required'
         ]);
 
         $article = Article::findOrFail($id);
-        
-        if (!empty($request->file('poster'))){
+
+        if (!empty($request->file('poster'))) {
             $filename = $request->file('poster')->getClientOriginalName();
             $path = $request->file('poster')->storeAs('post-images', time() . $filename, 'public');
 
             $validated_data['poster'] = '/storage/' . $path;
         }
+
+        Article_tags::where('article_id', $article->id)->delete();
+
+        connectTag($article->id, $request->input('tag', []));
+
         $article->update($validated_data);
 
         return redirect('/articles/' . $article->id);

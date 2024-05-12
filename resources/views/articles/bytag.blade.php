@@ -2,7 +2,7 @@
 @section('title', 'Maqolalar')
 
 @section('content')
-    <h2>{{ $tag->name }}</h2>
+    <h2>Mavzu: {{ $tag->name }}</h2>
     <div>
         @foreach ($tags as $tag)
             <a href="{{ route('articlesByTag', ['tag_name' => $tag->name]) }}">| {{ $tag->name }} |</a>
