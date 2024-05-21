@@ -14,9 +14,13 @@ class UserController extends Controller
 
         if (empty($user))
             abort(404);
-        
+        $user_articles = Article::select()
+            ->where('user_id', $user->id)
+            ->get();
+
         return view('/user/show', $data = [
-            'user' => $user
+            'user' => $user,
+            'user_articles' => $user_articles
         ]);
     }
 }
