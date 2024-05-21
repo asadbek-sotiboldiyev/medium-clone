@@ -17,12 +17,14 @@ return new class extends Migration
             $table->string('poster');
             $table->longText('content');
             $table->integer('user_id');
+            $table->integer('tag');
             $table->integer('views')->default(0);
             $table->integer('likes')->default(0);
 
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');
+            // $table->foreign('tag')->references('id')->on('tags');
         });
     }
 

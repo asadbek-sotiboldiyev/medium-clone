@@ -23,7 +23,7 @@
             <a href="/">MediUz</a> |
             <a href="{{ route('articleIndex') }}">Maqolalar</a> |
             @auth
-                <a href="#">{{ $USER->name }}</a> |
+                <a href="{{ route('userShow', ['username' => $USER->username]) }}">{{ $USER->name }}</a> |
                 <a href="{{ route('articleStore') }}">Yozish</a> | 
                 <a href="{{ route('logout') }}">Chiqish</a>
             @endauth

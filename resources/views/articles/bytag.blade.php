@@ -2,8 +2,9 @@
 @section('title', 'Maqolalar')
 
 @section('content')
-    <h2>Mavzu: {{ $tag->name }}</h2>
+    <h2>Mavzu: {{ $tag }}</h2>
     <div>
+        <a href="{{ route('articleIndex') }}">| Hammasi |</a>
         @foreach ($tags as $tag)
             <a href="{{ route('articlesByTag', ['tag_name' => $tag->name]) }}">| {{ $tag->name }} |</a>
         @endforeach
@@ -16,5 +17,7 @@
         <p>{{ $article->created_at }}</p>
         <hr>
     @endforeach
+    <hr>
+    {{ $articles->links() }}
 
 @endsection

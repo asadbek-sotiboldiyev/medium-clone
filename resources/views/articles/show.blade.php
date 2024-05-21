@@ -21,8 +21,6 @@
     <p>{{ $article->created_at }}</p>
     <h3>Mavzular:</h3>
     <div>
-        @foreach ($article->getTags() as $tag)
-            <a href="{{ route('articlesByTag', ['tag_name' => $tag->name]) }}">| {{ $tag->name }} |</a>
-        @endforeach
+        <a href="{{ route('articlesByTag', ['tag_name' => $tag->name]) }}">| {{ $tag->name }} |</a>
     </div>
 @endsection

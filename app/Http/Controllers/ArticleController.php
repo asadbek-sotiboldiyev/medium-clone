@@ -9,21 +9,11 @@ use App\Models\Article_tags;
 use App\Models\Tag;
 use Symfony\Component\Console\Input\Input;
 
-function connectTag($article_id, $tags)
-{
-    foreach ($tags as $tag_id) {
-        $article_tag = new Article_tags;
-        $article_tag->article_id = $article_id;
-        $article_tag->tag_id = $tag_id;
-        $article_tag->save();
-    }
-}
-
 class ArticleController extends Controller
 {
     public function index()
     {
-        $articles = Article::all();
+        $articles = Article::paginate(50);
         $tags = Tag::all();
         return view('articles/index', $data = [
             'articles' => $articles,
@@ -35,9 +25,11 @@ class ArticleController extends Controller
     {
         $article = Article::findOrFail($id);
         $auth_user = Auth::user();
+        $tag = Tag::find($article->id);
 
         return view('articles/show', $data = [
             'article' => $article,
+            'tag' => $tag,
             'USER' => $auth_user,
         ]);
     }
@@ -68,8 +60,6 @@ class ArticleController extends Controller
 
         $article = Article::create($validated_data);
 
-        connectTag($article->id, $request->input('tag', []));
-
         return redirect('/articles/' . $article->id);
     }
 
@@ -81,7 +71,7 @@ class ArticleController extends Controller
         return view('articles/edit', $data = [
             'article' => $article,
             'tags' => $tags,
-            'article_tags' => $article->getTags()
+            'article_tag' => Tag::find($article->tag)
         ]);
     }
 
@@ -101,10 +91,6 @@ class ArticleController extends Controller
 
             $validated_data['poster'] = '/storage/' . $path;
         }
-
-        Article_tags::where('article_id', $article->id)->delete();
-
-        connectTag($article->id, $request->input('tag', []));
 
         $article->update($validated_data);
 

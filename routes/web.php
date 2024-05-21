@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PagesController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\ArticleTagsController;
+use App\Http\Controllers\TagController;
 use App\Http\Controllers\UserController;
 
 Route::get('/', [PagesController::class, 'home']);
@@ -48,6 +49,6 @@ Route::prefix('/writer')->group(function () {
 });
 
 Route::prefix('/tag')->group(function () {
-    Route::get('/{tag_name?}', [ArticleTagsController::class, 'articlesByTag'])
+    Route::get('/{tag_name?}', [TagController::class, 'articlesByTag'])
         ->name('articlesByTag');
 });
